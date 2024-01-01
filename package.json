@@ -1,5 +1,5 @@
 {
-  "name": "primeng-quickstart-cli",
+  "name": "user-kata-front",
   "version": "1.0.0-SNAPSHOT",
   "license": "MIT",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/primefaces/primeng-quickstart-cli.git"
+    "url": "https://github.com/SelectItDev/user-kata-front.git"
   },
   "dependencies": {
     "@angular/animations": "^15.2.0",
