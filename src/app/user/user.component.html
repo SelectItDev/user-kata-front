@@ -1,0 +1,74 @@
+<p-toolbar styleClass="mb-4">
+    <h2 class="m-0">Gestion des utilisateurs</h2>
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="Créer un utilisateur" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+    </ng-template>
+</p-toolbar>
+<p-table #dt [value]="users" [rows]="10" [paginator]="true" [globalFilterFields]="['firstName','lastName']"
+         [rowHover]="true" dataKey="id"
+         currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} elements" [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Rechercher..." />
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="firstName">Prénom <p-sortIcon field="firstName"></p-sortIcon></th>
+            <th pSortableColumn="lastName">Nom <p-sortIcon field="lastName"></p-sortIcon></th>
+            <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+            Il y a  {{users ? users.length : 0 }} utilisateur{{users && users.length > 1 ? 's' : '' }} au total.
+        </div>
+    </ng-template>
+</p-table>
+<p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Informations de l'utilisateur" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="firstName">Prénom</label>
+            <input type="text" pInputText id="firstName" [(ngModel)]="user.firstName" required autofocus />
+            <small class="p-error" *ngIf="notValidFormError && !user.firstName">Le prénom est obligatoire.</small>
+        </div>
+        <br />
+        <div class="p-field">
+            <label for="lastName">Nom</label>
+            <input type="text" pInputText id="lastName" [(ngModel)]="user.lastName" required autofocus />
+            <small class="p-error" *ngIf="notValidFormError && !user.lastName">Le nom est obligatoire.</small>
+        </div>
+        <br />
+        <div class="p-field" *ngIf="!user.id" >
+            <label for="email">Email</label>
+            <input type="text" pInputText id="email" [(ngModel)]="user.email" required autofocus onchange="notValidEmailError = true"/>
+            <small class="p-error" *ngIf="notValidFormError && !user.email">L'email est obligatoire.</small>
+            <small class="p-error" *ngIf="notValidEmailError && user.email">L'email n'est pas valide.</small>
+            <small class="p-error" *ngIf="existingEmailError">L'email existe en BD.</small>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple [label]="user.id ? 'Modifier' : 'Créer'" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+    </ng-template>
+</p-dialog>
+<p-confirmDialog [style]="{width: '450px'}" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
