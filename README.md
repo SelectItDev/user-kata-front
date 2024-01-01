@@ -1,4 +1,4 @@
-# Gestion des Utilisateurs
+# Front end de l'application gestion des Utilisateurs
 
 - Affichage de la liste des utilisateurs (Id, Prénom, Nom, Email).
 - Recherche basée sur le nom et le prénom.
