@@ -5,3 +5,9 @@
 - Création d'un Utilisateur.
 - modification d'un Utilisateur.
 - Suppression d'un Utilisateur.
+
+
+## Infos techniques
+
+- Angular v 15
+- UI Lib : PrimeNG v 15
